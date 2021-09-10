@@ -5,10 +5,12 @@
 """
 import sys, os
 import pandas as pd
+from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import StandardScaler
 from sklearn import pipeline
 from sklearn.pipeline import Pipeline
 from sklearn.pipeline import FeatureUnion
+
 sys.path.append(os.path.abspath(os.path.join('..', 'utils')))
 from utils.utility import DataFrameImputer, MyLabelEncoder, DataFrameSelector
 
@@ -69,6 +71,7 @@ def run_pipeline(path):
     prediction = model.predict(data_prepared)
     return 0
     
+
 if __name__ == '__main__':
     pred = run_pipeline('Data/train.csv')
     print(pred)

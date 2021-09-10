@@ -11,6 +11,11 @@ import seaborn as sns
 import scipy.stats as stats
 from scipy.cluster.hierarchy import dendrogram
 from scipy.stats import chi2, zscore
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import f1_score
+from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import LabelEncoder
 from sklearn.base import BaseEstimator, TransformerMixin
 
@@ -187,6 +192,31 @@ def calc_silhouette_score(X=None, K=(2, 10), show=True):
     else:
         return sil
 
+def evaluate_cat_models(model_list, X_train, X_test, y_train, y_test, cv=None):
+    
+    model_dict = {}
+    for model in model_list:
+        print(f'Fitting {model}')
+        model.fit(X_train, y_train)
+        print(f'Done with fitting....')
+        y_pred = model.predict(X_test)
+        acc_score = accuracy_score(y_test, y_pred)
+        pre_score = precision_score(y_test, y_pred)
+        rec_score = recall_score(y_test, y_pred)
+        f1_score_ = f1_score(y_test, y_pred)
+        cross_acc_mean = np.NaN
+        cross_acc_std = np.NaN
+        if cv:
+            print(f'{model} cross validation')
+            scores = cross_val_score(model, X_train, y_train, cv=cv, n_jobs=-1)
+            print('Done with cross validation\n\n')
+            cross_acc_mean = scores.mean()
+            cross_acc_std = scores.std()
+
+        model_dict[model] = [cross_acc_mean, cross_acc_std, acc_score, pre_score,
+                                rec_score, f1_score_]
+
+    return pd.DataFrame(model_dict, index=['Cross Validated Accuracy Mean', 'Cross Validated Accuracy Std', 'Accuracy Score', 'Precision Score', 'Recall Score', 'F1 Score'])
 
 def plot_corr(corr):
     # plot correlation heatmap
@@ -199,8 +229,4 @@ def plot_corr(corr):
     return f
 
 if __name__ == '__main__':
-    data = pd.read_csv('Data/train.csv')
-    cat_attribs = ['Gender', 'Driving_License', 'Previously_Insured', 'Vehicle_Age', 'Vehicle_Damage']
-    imp = DataFrameSelector(cat_attribs)
-    data = imp.fit_transform(data)
-    print(data.head())
+    pass
