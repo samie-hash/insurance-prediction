@@ -213,7 +213,7 @@ def evaluate_cat_models(model_list, X_train, X_test, y_train, y_test, cv=None):
             cross_acc_mean = scores.mean()
             cross_acc_std = scores.std()
 
-        model_dict[model] = [cross_acc_mean, cross_acc_std, acc_score, pre_score,
+        model_dict[model.__str__()] = [cross_acc_mean, cross_acc_std, acc_score, pre_score,
                                 rec_score, f1_score_]
 
     return pd.DataFrame(model_dict, index=['Cross Validated Accuracy Mean', 'Cross Validated Accuracy Std', 'Accuracy Score', 'Precision Score', 'Recall Score', 'F1 Score'])
