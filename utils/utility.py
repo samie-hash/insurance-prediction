@@ -11,7 +11,7 @@ import seaborn as sns
 import scipy.stats as stats
 from scipy.cluster.hierarchy import dendrogram
 from scipy.stats import chi2, zscore
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import matthews_corrcoef
 from sklearn.metrics import recall_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import f1_score
@@ -193,14 +193,13 @@ def calc_silhouette_score(X=None, K=(2, 10), show=True):
         return sil
 
 def evaluate_cat_models(model_list, X_train, X_test, y_train, y_test, cv=None):
-    
     model_dict = {}
     for model in model_list:
         print(f'Fitting {model}')
         model.fit(X_train, y_train)
         print(f'Done with fitting....')
         y_pred = model.predict(X_test)
-        acc_score = accuracy_score(y_test, y_pred)
+        matthews = matthews_corrcoef(y_test, y_pred)
         pre_score = precision_score(y_test, y_pred)
         rec_score = recall_score(y_test, y_pred)
         f1_score_ = f1_score(y_test, y_pred)
@@ -213,10 +212,10 @@ def evaluate_cat_models(model_list, X_train, X_test, y_train, y_test, cv=None):
             cross_acc_mean = scores.mean()
             cross_acc_std = scores.std()
 
-        model_dict[model.__str__()] = [cross_acc_mean, cross_acc_std, acc_score, pre_score,
+        model_dict[model.__str__()] = [cross_acc_mean, cross_acc_std, matthews, pre_score,
                                 rec_score, f1_score_]
 
-    return pd.DataFrame(model_dict, index=['Cross Validated Accuracy Mean', 'Cross Validated Accuracy Std', 'Accuracy Score', 'Precision Score', 'Recall Score', 'F1 Score'])
+    return pd.DataFrame(model_dict, index=['Cross Validated Accuracy Mean', 'Cross Validated Accuracy Std', 'Matthews Coef', 'Precision Score', 'Recall Score', 'F1 Score'])
 
 def plot_corr(corr):
     # plot correlation heatmap
@@ -227,6 +226,13 @@ def plot_corr(corr):
     sns.heatmap(corr, mask=mask, cmap=cmap, vmax=.3, center=0,square=True, linewidths=.5, cbar_kws={"shrink": .5})
     plt.show()
     return f
+
+def plot_precision_recall_vs_threshold(precisions, recalls, thresholds):
+    plt.plot(thresholds, precisions[:-1], "b--", label="Precision")
+    plt.plot(thresholds, recalls[:-1], "g-", label="Recall")
+    plt.xlabel("Threshold")
+    plt.legend(loc="upper left")
+    plt.ylim([0, 1])
 
 if __name__ == '__main__':
     pass
