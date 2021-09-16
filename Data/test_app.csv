@@ -1,0 +1,10 @@
+id,Gender,Age,Driving_License,Region_Code,Previously_Insured,Vehicle_Age,Vehicle_Damage,Annual_Premium,Policy_Sales_Channel,Vintage
+381110,Male,25,1,11,1,< 1 Year,No,35786,152,53
+381111,Male,40,1,28,0,1-2 Year,Yes,33762,7,111
+381112,Male,47,1,28,0,1-2 Year,Yes,40050,124,199
+381113,Male,24,1,27,1,< 1 Year,Yes,37356,152,187
+381114,Male,27,1,28,1,< 1 Year,No,59097,152,297
+381115,Male,22,1,30,1,< 1 Year,No,40207,152,266
+381116,Female,51,1,37,1,1-2 Year,No,40118,26,107
+381117,Male,25,1,41,1,< 1 Year,No,23375,152,232
+381118,Male,42,1,41,0,1-2 Year,Yes,2630,26,277
