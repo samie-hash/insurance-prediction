@@ -64,4 +64,4 @@ else:
     data['Response'] = response[pred]
     data['Probability'] = proba
     st.write(data)
-        
+        /home/korede/Desktop/insurance-prediction/app.py
