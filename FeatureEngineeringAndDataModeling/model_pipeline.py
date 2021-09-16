@@ -13,7 +13,7 @@ from sklearn import pipeline
 from sklearn.pipeline import Pipeline
 from sklearn.pipeline import FeatureUnion
 
-sys.path.append(os.path.abspath(os.path.join('..', 'utils')))
+sys.path.append(os.path.abspath(os.path.join('.', 'utils')))
 from utility import DataFrameImputer, MyLabelEncoder, DataFrameSelector
 
 def load_data(path):
@@ -39,9 +39,8 @@ def load_model(path):
     return pickle.load(open(path, 'rb'))
 
 
-def run_pipeline(path, model):
+def run_pipeline(data, model):
     threshold = 0.6
-    data = load_data(path)
     cat_attribs = ['Gender', 'Driving_License', 'Previously_Insured', 'Vehicle_Age', 'Vehicle_Damage']
     num_attribs = ['Age', 'Annual_Premium', 'Vintage', 'Region_Code', 'Policy_Sales_Channel']
     
@@ -71,7 +70,7 @@ def run_pipeline(path, model):
     data_prepared = full_pipeline.fit_transform(data)
     y_scores = model.predict_proba(data_prepared)[:, 1]
     y_pred_60 = y_scores > threshold
-    return y_pred_60.astype(np.int32)
+    return y_pred_60.astype(np.int32), y_scores
     
 
 if __name__ == '__main__':
