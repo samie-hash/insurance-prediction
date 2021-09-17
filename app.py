@@ -27,13 +27,13 @@ if uploaded_file is None:
         gender = st.sidebar.selectbox('Gender',('Male', 'Female'))
         age = st.sidebar.slider('Age',18,100,18)
         driving_license = st.sidebar.selectbox('Driving_License', (0, 1))
-        region_code = st.sidebar.slider('Region_Code',1,100,1)
+        region_code = st.sidebar.slider('Region_Code',1,60,1)
         previously_insured = st.sidebar.selectbox('Previously_Insured',(1, 0))
         vehicle_age = st.sidebar.selectbox('Vehicle_Age',('1-2 Year', '< 1 Year', '> 2 Year'))
         vehicle_damage = st.sidebar.selectbox('Vehicle_Damage',('Yes', 'No'))
-        annual_premium = st.sidebar.slider('Annual_Premium',10000,1000000,10000)
-        policy_sales_channel = st.sidebar.slider('Policy_Sales_Channel',1,1000,1)
-        vintage= st.sidebar.slider('Vintage',1,1000,1)
+        annual_premium = st.sidebar.slider('Annual_Premium',10000, 600000,10000)
+        policy_sales_channel = st.sidebar.slider('Policy_Sales_Channel',1,200,1)
+        vintage= st.sidebar.slider('Vintage',1,500,1)
 
         data = {
             'Gender': [gender],
@@ -52,13 +52,14 @@ if uploaded_file is None:
 
     data = user_input_features()
     st.write(data)
-    pred, proba = model_pipeline.run_pipeline(data, model)
+    pred, proba, _ = model_pipeline.run_pipeline(data, model, 'models/pipeline.pkl')
+    print(pred)
     display_prediction(pred, proba)
 else:
     data = model_pipeline.load_data(uploaded_file)
     st.subheader('User Input features')
     st.write('Awaiting CSV file to be uploaded. Currently using example input parameters (shown below).')
-    pred, proba = model_pipeline.run_pipeline(data, model)
+    pred, proba, _ = model_pipeline.run_pipeline(data, model, 'models/pipeline.pkl')
     response = np.array(['Not Interested','Interested'])
     data['Response'] = response[pred]
     data['Probability'] = proba
