@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import pickle
 from FeatureEngineeringAndDataModeling import model_pipeline
 
 st.write("""
