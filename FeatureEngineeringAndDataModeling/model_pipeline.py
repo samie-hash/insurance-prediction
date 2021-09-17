@@ -70,8 +70,8 @@ def run_pipeline(data, model, path=None):
     if not path:
         data_prepared = full_pipeline.fit_transform(data)
     else:
-        full_pipeline = pickle.load(open(path, 'rb'))
-        data_prepared = full_pipeline.transform(data)
+        #full_pipeline = pickle.load(open(path, 'rb'))
+        data_prepared = full_pipeline.fit_transform(data)
 
     y_scores = model.predict_proba(data_prepared)[:, 1]
     y_pred_60 = y_scores > threshold
