@@ -51,13 +51,13 @@ if uploaded_file is None:
 
     data = user_input_features()
     st.write(data)
-    pred, proba, _ = model_pipeline.run_pipeline(data, model, '../models/pipeline.pkl')
+    pred, proba, _ = model_pipeline.run_pipeline(data, model, path=True)
     display_prediction(pred, proba)
 else:
     data = model_pipeline.load_data(uploaded_file)
     st.subheader('User Input features')
     st.write('Awaiting CSV file to be uploaded. Currently using example input parameters (shown below).')
-    pred, proba, _ = model_pipeline.run_pipeline(data, model, '../models/pipeline.pkl')
+    pred, proba, _ = model_pipeline.run_pipeline(data, model, path=True)
     response = np.array(['Not Interested','Interested'])
     data['Response'] = response[pred]
     data['Probability'] = proba
