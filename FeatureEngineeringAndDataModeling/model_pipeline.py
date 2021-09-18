@@ -70,7 +70,7 @@ def run_pipeline(data, model, path=False):
     if not path:
         data_prepared = full_pipeline.fit_transform(data)
     else:
-        full_pipeline = pickle.load(open('models/pipeline.pkl', 'rb'))
+        full_pipeline = pickle.load(open('../models/pipeline.pkl', 'rb'))
         data_prepared = full_pipeline.transform(data)
 
     y_scores = model.predict_proba(data_prepared)[:, 1]
