@@ -73,7 +73,7 @@ def run_pipeline(data, model, pipeline=False):
     if not pipeline:
         data_prepared = full_pipeline.fit_transform(data)
     else:
-        data_prepared = pipeline.fit_transform(data)
+        data_prepared = pipeline.transform(data)
 
     y_scores = model.predict_proba(data_prepared)[:, 1]
     y_pred_60 = y_scores > threshold

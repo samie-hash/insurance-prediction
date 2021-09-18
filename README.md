@@ -39,3 +39,5 @@ Now, in order to predict, whether the customer would be interested in Vehicle in
 *Vintage*	Number of Days, Customer has been associated with the company
 
 *Response*	1 : Customer is interested, 0 : Customer is not interested
+
+Link to the web application can be found in https://hamoye-insurance-prediction.herokuapp.com/
