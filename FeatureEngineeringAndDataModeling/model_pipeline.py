@@ -39,7 +39,7 @@ def load_model(path):
     return pickle.load(open(path, 'rb'))
 
 
-def run_pipeline(data, model, path=False):
+def run_pipeline(data, model, pipeline=False):
     threshold = 0.6
     cat_attribs = ['Gender', 'Driving_License', 'Previously_Insured', 'Vehicle_Age', 'Vehicle_Damage']
     num_attribs = ['Age', 'Annual_Premium', 'Vintage', 'Region_Code', 'Policy_Sales_Channel']
@@ -67,11 +67,10 @@ def run_pipeline(data, model, path=False):
         ]
     )
 
-    if not path:
+    if not pipeline:
         data_prepared = full_pipeline.fit_transform(data)
     else:
-        full_pipeline = pickle.load(open('../models/pipeline.pkl', 'rb'))
-        data_prepared = full_pipeline.transform(data)
+        data_prepared = pipeline.transform(data)
 
     y_scores = model.predict_proba(data_prepared)[:, 1]
     y_pred_60 = y_scores > threshold

@@ -1,4 +1,5 @@
 import streamlit as st
+import pickle
 import pandas as pd
 import numpy as np
 from FeatureEngineeringAndDataModeling import model_pipeline
@@ -11,6 +12,7 @@ st.sidebar.markdown("""
 [Example CSV input file](https://github.com/samie-hash/insurance-prediction/blob/main/Data/train.csv)
 """)
 model = model_pipeline.load_model('models/gradient_boost.pkl')
+pipeline = pickle.load(open('models/pipeline.pkl', 'rb'))
 uploaded_file = st.sidebar.file_uploader("Upload your input CSV file", type=["csv"])
 
 def display_prediction(pred, proba):
@@ -51,13 +53,13 @@ if uploaded_file is None:
 
     data = user_input_features()
     st.write(data)
-    pred, proba, _ = model_pipeline.run_pipeline(data, model, path=True)
+    pred, proba, _ = model_pipeline.run_pipeline(data, model, pipeline)
     display_prediction(pred, proba)
 else:
     data = model_pipeline.load_data(uploaded_file)
     st.subheader('User Input features')
     st.write('Awaiting CSV file to be uploaded. Currently using example input parameters (shown below).')
-    pred, proba, _ = model_pipeline.run_pipeline(data, model, path=True)
+    pred, proba, _ = model_pipeline.run_pipeline(data, model, pipeline)
     response = np.array(['Not Interested','Interested'])
     data['Response'] = response[pred]
     data['Probability'] = proba
