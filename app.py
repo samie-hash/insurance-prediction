@@ -12,7 +12,8 @@ st.sidebar.markdown("""
 [Example CSV input file](https://github.com/samie-hash/insurance-prediction/blob/main/Data/train.csv)
 """)
 model = model_pipeline.load_model('models/gradient_boost.pkl')
-pipeline = pickle.load(open('models/pipeline.pkl', 'rb'))
+pipeline = model_pipeline.load_pipeline('models/pipeline.pkl')
+
 uploaded_file = st.sidebar.file_uploader("Upload your input CSV file", type=["csv"])
 
 def display_prediction(pred, proba):

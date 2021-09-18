@@ -38,6 +38,9 @@ def load_data(path):
 def load_model(path):
     return pickle.load(open(path, 'rb'))
 
+def load_pipeline(path):
+    return pickle.load(open(path, 'rb'))
+
 
 def run_pipeline(data, model, pipeline=False):
     threshold = 0.6
